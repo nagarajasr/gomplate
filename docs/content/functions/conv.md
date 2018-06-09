@@ -46,6 +46,24 @@ $ gomplate -i '{{ "" | default "foo" }} {{ "bar" | default "baz" }}'
 foo bar
 ```
 
+## `conv.Required`
+
+**Alias:** `required`
+
+The `required` function allows you to declare a particular values entry as
+required for template rendering. If the value is empty, the template rendering
+will fail with a user submitted error message.
+
+This was inspired by, and behaves the same as [Helm's `required` function](https://github.com/kubernetes/helm/blob/master/docs/charts_tips_and_tricks.md#know-your-template-functions).
+
+#### Example
+
+value: {{required "A valid .Values.who entry required!" .Values.who }}
+```console
+$ gomplate -i '{{ required "Missing $FOO environment variable!" .Env.FOO }}'
+foo bar
+```
+
 ## `conv.Slice`
 
 **Alias:** `slice`

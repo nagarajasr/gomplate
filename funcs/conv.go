@@ -1,11 +1,13 @@
 package funcs
 
 import (
+	"fmt"
 	"net/url"
 	"sync"
 	"text/template"
 
 	"github.com/hairyhenderson/gomplate/conv"
+	"github.com/pkg/errors"
 )
 
 var (
@@ -120,4 +122,25 @@ func (f *ConvFuncs) Default(def, in interface{}) interface{} {
 		return in
 	}
 	return def
+}
+
+// Required -
+func (f *ConvFuncs) Required(in ...interface{}) (interface{}, error) {
+	msg := "can not render template: a required value not was not set"
+	val := in[len(in)-1]
+	if len(in) == 2 {
+		if v, ok := val.(string); ok {
+			msg = v
+		} else {
+			return val, errors.Errorf("required message must be a string")
+		}
+	}
+	if val == nil {
+		return val, fmt.Errorf(msg)
+	} else if _, ok := val.(string); ok {
+		if val == "" {
+			return val, fmt.Errorf(msg)
+		}
+	}
+	return val, nil
 }

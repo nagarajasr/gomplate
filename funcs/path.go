@@ -1,7 +1,7 @@
 package funcs
 
 import (
-	"path/filepath"
+	"path"
 	"sync"
 
 	"github.com/hairyhenderson/gomplate/conv"
@@ -27,12 +27,12 @@ func AddPathFuncs(f map[string]interface{}) {
 type PathFuncs struct {
 }
 
-// Basename -
-func (f *PathFuncs) Basename(in interface{}) (string, error) {
-	return filepath.Base(conv.ToString(in)), nil
+// Base -
+func (f *PathFuncs) Base(in interface{}) (string, error) {
+	return path.Base(conv.ToString(in)), nil
 }
 
-// Dirname -
-func (f *PathFuncs) Dirname(in interface{}) (string, error) {
-	return filepath.Dir(conv.ToString(in)), nil
+// Dir -
+func (f *PathFuncs) Dir(in interface{}) (string, error) {
+	return path.Dir(conv.ToString(in)), nil
 }

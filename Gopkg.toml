@@ -10,3 +10,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/hashicorp/go-sockaddr"
+
+[[override]]
+  name = "github.com/satori/go.uuid"
+  revision = "master"

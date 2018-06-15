@@ -23,5 +23,6 @@ func initFuncs(d *data.Data) template.FuncMap {
 	funcs.AddCryptoFuncs(f)
 	funcs.AddFileFuncs(f)
 	funcs.AddSockaddrFuncs(f)
+	funcs.AddUtilFuncs(f)
 	return f
 }

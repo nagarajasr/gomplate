@@ -20,6 +20,7 @@
     "aws/credentials/ec2rolecreds",
     "aws/credentials/endpointcreds",
     "aws/credentials/stscreds",
+    "aws/csm",
     "aws/defaults",
     "aws/ec2metadata",
     "aws/endpoints",
@@ -41,8 +42,8 @@
     "service/ssm",
     "service/sts"
   ]
-  revision = "fad131ddc707880428615dc8bc1587b55fb46d74"
-  version = "v1.13.54"
+  revision = "2fa5290a6a8f6a664f2dab5337d5f64d0cfd8f68"
+  version = "v1.14.7"
 
 [[projects]]
   branch = "master"
@@ -77,22 +78,22 @@
   version = "v0.2.1"
 
 [[projects]]
+  name = "github.com/fatih/structs"
+  packages = ["."]
+  revision = "a720dfa8df582c51dee1b36feabb906bde1588bd"
+  version = "v1.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/fullsailor/pkcs7"
   packages = ["."]
-  revision = "ae226422660e5ca10db350d33f81c6608f3fbcdd"
+  revision = "8306686428a5fe132eac8cb7c4848af725098bd4"
 
 [[projects]]
   name = "github.com/go-ini/ini"
   packages = ["."]
-  revision = "6529cf7c58879c08d927016dde4477f18a0634cb"
-  version = "v1.36.0"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/golang/snappy"
-  packages = ["."]
-  revision = "2e65f85255dbc3072edf28d6b5b8efc472979f5a"
+  revision = "06f5f3d67269ccec1fe5fe4134ba6e982984f7f5"
+  version = "v1.37.0"
 
 [[projects]]
   name = "github.com/google/go-cmp"
@@ -198,12 +199,10 @@
   packages = [
     "api",
     "helper/compressutil",
-    "helper/jsonutil",
-    "helper/parseutil",
-    "helper/strutil"
+    "helper/jsonutil"
   ]
-  revision = "5dd7f25f5c4b541f2da62d70075b6f82771a650d"
-  version = "v0.10.0"
+  revision = "5d8d702f33b5fd965cbe8d6d0728295de813a196"
+  version = "v0.6.5"
 
 [[projects]]
   name = "github.com/inconshreveable/mousetrap"
@@ -247,10 +246,9 @@
   revision = "cb7f23ec59bec0d61b19c56cd88cee3d0cc1870c"
 
 [[projects]]
-  name = "github.com/ryanuber/go-glob"
+  name = "github.com/satori/go.uuid"
   packages = ["."]
-  revision = "572520ed46dbddaed19ea3d9541bdd0494163693"
-  version = "v0.1"
+  revision = "master"
 
 [[projects]]
   name = "github.com/sethgrid/pester"
@@ -264,8 +262,8 @@
     ".",
     "mem"
   ]
-  revision = "63644898a8da0bc22138abf860edaf5277b6102e"
-  version = "v1.1.0"
+  revision = "787d034dfe70e44075ccc060d346146ef53270ad"
+  version = "v1.1.1"
 
 [[projects]]
   name = "github.com/spf13/cobra"
@@ -282,8 +280,8 @@
 [[projects]]
   name = "github.com/stretchr/testify"
   packages = ["assert"]
-  revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
-  version = "v1.2.1"
+  revision = "f35b8ab0b5a2cef36673838d662e249dd9c94686"
+  version = "v1.2.2"
 
 [[projects]]
   name = "github.com/ugorji/go"
@@ -299,42 +297,23 @@
     "blowfish",
     "pbkdf2"
   ]
-  revision = "75e913eb8a8e3d31a97b216de09de106a7b07681"
-
-[[projects]]
-  branch = "master"
-  name = "golang.org/x/net"
-  packages = [
-    "http/httpguts",
-    "http2",
-    "http2/hpack",
-    "idna"
-  ]
-  revision = "9ef9f5bb98a1fdc41f8cf6c250a4404b4085e389"
+  revision = "a8fb68e7206f8c78be19b432c58eb52a6aa34462"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "56ad15cc2170219c9fed5b7d059e825c97588071"
+  revision = "8014b7b116a67fea23fbb82cd834c9ad656ea44b"
 
 [[projects]]
   name = "golang.org/x/text"
   packages = [
-    "collate",
-    "collate/build",
-    "internal/colltab",
     "internal/gen",
-    "internal/tag",
     "internal/triegen",
     "internal/ucd",
-    "language",
-    "secure/bidirule",
     "transform",
-    "unicode/bidi",
     "unicode/cldr",
-    "unicode/norm",
-    "unicode/rangetable"
+    "unicode/norm"
   ]
   revision = "f21a4dfb5e38f5895301dc265a8def02365cc3d0"
   version = "v0.3.0"
@@ -354,6 +333,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9481245e10ffa11db1ebb5816e95e882692a408d69407880a90e8d2b6cc65183"
+  inputs-digest = "e5477881351e25aaa0d593c778f925920f18fc9aa61fff5bbc3c9728fabb3b1d"
   solver-name = "gps-cdcl"
   solver-version = 1

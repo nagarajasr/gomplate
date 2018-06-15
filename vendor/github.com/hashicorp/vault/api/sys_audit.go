@@ -71,19 +71,16 @@ func (c *Sys) ListAudit() (map[string]*Audit, error) {
 	return mounts, nil
 }
 
-// DEPRECATED: Use EnableAuditWithOptions instead
 func (c *Sys) EnableAudit(
 	path string, auditType string, desc string, opts map[string]string) error {
-	return c.EnableAuditWithOptions(path, &EnableAuditOptions{
-		Type:        auditType,
-		Description: desc,
-		Options:     opts,
-	})
-}
+	body := map[string]interface{}{
+		"type":        auditType,
+		"description": desc,
+		"options":     opts,
+	}
 
-func (c *Sys) EnableAuditWithOptions(path string, options *EnableAuditOptions) error {
 	r := c.c.NewRequest("PUT", fmt.Sprintf("/v1/sys/audit/%s", path))
-	if err := r.SetJSONBody(options); err != nil {
+	if err := r.SetJSONBody(body); err != nil {
 		return err
 	}
 
@@ -109,17 +106,9 @@ func (c *Sys) DisableAudit(path string) error {
 // individually documented because the map almost directly to the raw HTTP API
 // documentation. Please refer to that documentation for more details.
 
-type EnableAuditOptions struct {
-	Type        string            `json:"type"`
-	Description string            `json:"description"`
-	Options     map[string]string `json:"options"`
-	Local       bool              `json:"local"`
-}
-
 type Audit struct {
 	Path        string
 	Type        string
 	Description string
 	Options     map[string]string
-	Local       bool
 }

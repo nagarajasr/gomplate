@@ -3,11 +3,9 @@ package api
 import (
 	"bytes"
 	"fmt"
-	"io"
 	"net/http"
 	"os"
 
-	"github.com/hashicorp/errwrap"
 	"github.com/hashicorp/vault/helper/jsonutil"
 )
 
@@ -52,17 +50,6 @@ func (c *Logical) Read(path string) (*Secret, error) {
 		defer resp.Body.Close()
 	}
 	if resp != nil && resp.StatusCode == 404 {
-		secret, parseErr := ParseSecret(resp.Body)
-		switch parseErr {
-		case nil:
-		case io.EOF:
-			return nil, nil
-		default:
-			return nil, err
-		}
-		if secret != nil && (len(secret.Warnings) > 0 || len(secret.Data) > 0) {
-			return secret, nil
-		}
 		return nil, nil
 	}
 	if err != nil {
@@ -83,17 +70,6 @@ func (c *Logical) List(path string) (*Secret, error) {
 		defer resp.Body.Close()
 	}
 	if resp != nil && resp.StatusCode == 404 {
-		secret, parseErr := ParseSecret(resp.Body)
-		switch parseErr {
-		case nil:
-		case io.EOF:
-			return nil, nil
-		default:
-			return nil, err
-		}
-		if secret != nil && (len(secret.Warnings) > 0 || len(secret.Data) > 0) {
-			return secret, nil
-		}
 		return nil, nil
 	}
 	if err != nil {
@@ -113,19 +89,6 @@ func (c *Logical) Write(path string, data map[string]interface{}) (*Secret, erro
 	if resp != nil {
 		defer resp.Body.Close()
 	}
-	if resp != nil && resp.StatusCode == 404 {
-		secret, parseErr := ParseSecret(resp.Body)
-		switch parseErr {
-		case nil:
-		case io.EOF:
-			return nil, nil
-		default:
-			return nil, err
-		}
-		if secret != nil && (len(secret.Warnings) > 0 || len(secret.Data) > 0) {
-			return secret, err
-		}
-	}
 	if err != nil {
 		return nil, err
 	}
@@ -142,19 +105,6 @@ func (c *Logical) Delete(path string) (*Secret, error) {
 	resp, err := c.c.RawRequest(r)
 	if resp != nil {
 		defer resp.Body.Close()
-	}
-	if resp != nil && resp.StatusCode == 404 {
-		secret, parseErr := ParseSecret(resp.Body)
-		switch parseErr {
-		case nil:
-		case io.EOF:
-			return nil, nil
-		default:
-			return nil, err
-		}
-		if secret != nil && (len(secret.Warnings) > 0 || len(secret.Data) > 0) {
-			return secret, err
-		}
 	}
 	if err != nil {
 		return nil, err
@@ -188,11 +138,10 @@ func (c *Logical) Unwrap(wrappingToken string) (*Secret, error) {
 	if resp != nil {
 		defer resp.Body.Close()
 	}
-
-	// Return all errors except those that are from a 404 as we handle the not
-	// found error as a special case.
-	if err != nil && (resp == nil || resp.StatusCode != 404) {
-		return nil, err
+	if err != nil {
+		if resp != nil && resp.StatusCode != 404 {
+			return nil, err
+		}
 	}
 	if resp == nil {
 		return nil, nil
@@ -214,10 +163,10 @@ func (c *Logical) Unwrap(wrappingToken string) (*Secret, error) {
 
 	secret, err := c.Read(wrappedResponseLocation)
 	if err != nil {
-		return nil, errwrap.Wrapf(fmt.Sprintf("error reading %q: {{err}}", wrappedResponseLocation), err)
+		return nil, fmt.Errorf("error reading %s: %s", wrappedResponseLocation, err)
 	}
 	if secret == nil {
-		return nil, fmt.Errorf("no value found at %q", wrappedResponseLocation)
+		return nil, fmt.Errorf("no value found at %s", wrappedResponseLocation)
 	}
 	if secret.Data == nil {
 		return nil, fmt.Errorf("\"data\" not found in wrapping response")
@@ -229,7 +178,7 @@ func (c *Logical) Unwrap(wrappingToken string) (*Secret, error) {
 	wrappedSecret := new(Secret)
 	buf := bytes.NewBufferString(secret.Data["response"].(string))
 	if err := jsonutil.DecodeJSONFromReader(buf, wrappedSecret); err != nil {
-		return nil, errwrap.Wrapf("error unmarshalling wrapped secret: {{err}}", err)
+		return nil, fmt.Errorf("error unmarshaling wrapped secret: %s", err)
 	}
 
 	return wrappedSecret, nil

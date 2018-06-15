@@ -171,33 +171,32 @@ func (c *Sys) RekeyDeleteRecoveryBackup() error {
 type RekeyInitRequest struct {
 	SecretShares    int      `json:"secret_shares"`
 	SecretThreshold int      `json:"secret_threshold"`
-	StoredShares    int      `json:"stored_shares"`
 	PGPKeys         []string `json:"pgp_keys"`
 	Backup          bool
 }
 
 type RekeyStatusResponse struct {
-	Nonce           string   `json:"nonce"`
-	Started         bool     `json:"started"`
-	T               int      `json:"t"`
-	N               int      `json:"n"`
-	Progress        int      `json:"progress"`
-	Required        int      `json:"required"`
+	Nonce           string
+	Started         bool
+	T               int
+	N               int
+	Progress        int
+	Required        int
 	PGPFingerprints []string `json:"pgp_fingerprints"`
-	Backup          bool     `json:"backup"`
+	Backup          bool
 }
 
 type RekeyUpdateResponse struct {
-	Nonce           string   `json:"nonce"`
-	Complete        bool     `json:"complete"`
-	Keys            []string `json:"keys"`
+	Nonce           string
+	Complete        bool
+	Keys            []string
 	KeysB64         []string `json:"keys_base64"`
 	PGPFingerprints []string `json:"pgp_fingerprints"`
-	Backup          bool     `json:"backup"`
+	Backup          bool
 }
 
 type RekeyRetrieveResponse struct {
-	Nonce   string              `json:"nonce"`
-	Keys    map[string][]string `json:"keys"`
+	Nonce   string
+	Keys    map[string][]string
 	KeysB64 map[string][]string `json:"keys_base64"`
 }
